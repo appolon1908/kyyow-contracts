@@ -65,6 +65,11 @@ envelope fields, API version boundaries, and the absence of common implementatio
 types. CI also packs the TypeScript projection. A protected baseline change is an explicit
 compatibility decision and must receive the owners in `CODEOWNERS`.
 
+Platform repositories consume `.github/workflows/validate-platform-component.yml` at an exact
+commit SHA. Their `kyyow-integration.v1.json` profiles are validated against the shared
+`platform-component.v1.json` contract and must remain fail-closed until runtime evidence and a
+separate production cutover approval exist.
+
 ## Publishing
 
 Publishing is tag-driven. Use `vMAJOR.MINOR.PATCH`; CI must validate first. NuGet packages and the

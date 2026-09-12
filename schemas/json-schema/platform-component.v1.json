@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.kyyow.com/platform/platform-component.v1.json",
+  "title": "Kyyow platform component integration v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "repository",
+    "component",
+    "authority",
+    "exposure",
+    "native_ports",
+    "inputs",
+    "outputs",
+    "controls",
+    "identity",
+    "secrets",
+    "operations",
+    "activation"
+  ],
+  "properties": {
+    "schema": { "const": "kyyow.platform-component.v1" },
+    "repository": {
+      "type": "string",
+      "pattern": "^appolon1908-hue/[A-Za-z0-9._-]+$"
+    },
+    "component": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+    "authority": { "type": "string", "minLength": 1 },
+    "exposure": { "enum": ["private", "private-admin", "authenticated-ui"] },
+    "native_ports": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "integer", "minimum": 1, "maximum": 65535 }
+    },
+    "inputs": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "outputs": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "controls": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authority",
+        "workload_identity_required",
+        "anonymous_admin_access"
+      ],
+      "properties": {
+        "authority": { "const": "appolon1908-hue/Keycloak" },
+        "workload_identity_required": { "const": true },
+        "anonymous_admin_access": { "const": false }
+      }
+    },
+    "secrets": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authority",
+        "secrets_in_git",
+        "environment_plaintext_secrets"
+      ],
+      "properties": {
+        "authority": { "const": "appolon1908-hue/Codestra-OpenBao" },
+        "secrets_in_git": { "const": false },
+        "environment_plaintext_secrets": { "const": false }
+      }
+    },
+    "operations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "middleware_is_sole_odoo_writer",
+        "grafana_read_only",
+        "superset_read_only"
+      ],
+      "properties": {
+        "middleware_is_sole_odoo_writer": { "const": true },
+        "grafana_read_only": { "const": true },
+        "superset_read_only": { "const": true }
+      }
+    },
+    "activation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_contract_complete",
+        "runtime_evidence_complete",
+        "production_activation_authorized"
+      ],
+      "properties": {
+        "source_contract_complete": { "const": true },
+        "runtime_evidence_complete": { "const": false },
+        "production_activation_authorized": { "const": false }
+      }
+    }
+  }
+}

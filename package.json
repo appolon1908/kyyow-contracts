@@ -8,6 +8,7 @@
   "scripts": {
     "build": "npm --prefix typescript run build",
     "test": "node --test compatibility-tests/*.test.mjs",
+    "validate:component": "node scripts/validate-platform-component.mjs",
     "check": "npm run build && npm test",
     "format-check": "prettier --check .",
     "format": "prettier --write ."
