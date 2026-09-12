@@ -1,0 +1,10 @@
+/src/Kyyow.Contracts.Sms/ @kyyow/messaging-team @kyyow/api-governance
+/src/Kyyow.Contracts.Campaigns/ @kyyow/campaign-team @kyyow/api-governance
+/src/Kyyow.Contracts.Billing/ @kyyow/billing-team @kyyow/api-governance
+/src/Kyyow.Contracts.Compliance/ @kyyow/compliance-team @kyyow/api-governance
+/src/Kyyow.Contracts.Integrations/ @kyyow/platform-team @kyyow/api-governance
+/src/Kyyow.Contracts.Odoo/ @kyyow/platform-team @kyyow/api-governance
+/schemas/openapi/ @kyyow/api-governance
+/schemas/asyncapi/ @kyyow/platform-team @kyyow/api-governance
+/schemas/json-schema/ @kyyow/platform-team @kyyow/api-governance
+/compatibility-tests/contract-baseline.json @kyyow/platform-team @kyyow/api-governance

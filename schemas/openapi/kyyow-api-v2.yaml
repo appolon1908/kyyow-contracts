@@ -1,0 +1,55 @@
+openapi: 3.1.0
+info:
+  title: Kyyow Public API
+  version: 2.0.0
+servers:
+  - url: https://api.kyyow.com/v2
+paths:
+  /messages:
+    post:
+      operationId: createMessageV2
+      tags: [Messaging]
+      parameters:
+        - name: Idempotency-Key
+          in: header
+          required: true
+          schema: { type: string, minLength: 8, maxLength: 128 }
+        - name: X-Correlation-Id
+          in: header
+          required: true
+          schema: { type: string, minLength: 1, maxLength: 128 }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              {
+                $ref: "./kyyow-api-v1.yaml#/components/schemas/SmsMessageRequested",
+              }
+      responses:
+        "202":
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                {
+                  $ref: "./kyyow-api-v1.yaml#/components/schemas/MessageAccepted",
+                }
+  /messages/{messageId}:
+    get:
+      operationId: getMessageV2
+      tags: [Messaging]
+      parameters:
+        - name: messageId
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: Current normalized message state
+          content:
+            application/json:
+              schema:
+                {
+                  $ref: "./kyyow-api-v1.yaml#/components/schemas/MessageStatus",
+                }

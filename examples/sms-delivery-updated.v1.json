@@ -1,0 +1,20 @@
+{
+  "id": "evt_01HXYZ",
+  "type": "sms.delivery.updated",
+  "version": 1,
+  "source": "kyyow-messaging",
+  "tenant_id": "tnt_01HXYZ",
+  "correlation_id": "cor_01HXYZ",
+  "causation_id": "evt_01HXYA",
+  "occurred_at": "2026-09-12T12:30:00Z",
+  "data": {
+    "message_id": "msg_01HXYZ",
+    "provider_message_id": "abc123",
+    "provider": "carrier_a",
+    "status": "DELIVERED",
+    "occurred_at": "2026-09-12T12:30:00Z",
+    "received_at": "2026-09-12T12:30:02Z",
+    "error_code": null,
+    "metadata": {}
+  }
+}

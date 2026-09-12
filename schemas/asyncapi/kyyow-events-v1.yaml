@@ -1,0 +1,121 @@
+asyncapi: 3.0.0
+info:
+  title: Kyyow Events
+  version: 1.0.0
+  description: Immutable facts published after the owning capability changes state.
+channels:
+  smsDeliveryUpdated:
+    address: sms.delivery.updated.v1
+    messages:
+      smsDeliveryUpdated:
+        $ref: "#/components/messages/SmsDeliveryUpdated"
+  smsInboundReceived:
+    address: sms.inbound.received.v1
+    messages:
+      smsInboundReceived:
+        $ref: "#/components/messages/SmsInboundReceived"
+operations:
+  receiveSmsDeliveryUpdated:
+    action: receive
+    channel: { $ref: "#/channels/smsDeliveryUpdated" }
+    messages:
+      - $ref: "#/channels/smsDeliveryUpdated/messages/smsDeliveryUpdated"
+  receiveSmsInboundReceived:
+    action: receive
+    channel: { $ref: "#/channels/smsInboundReceived" }
+    messages:
+      - $ref: "#/channels/smsInboundReceived/messages/smsInboundReceived"
+components:
+  messages:
+    SmsDeliveryUpdated:
+      name: SmsDeliveryUpdated
+      title: A provider delivery state was normalized by Messaging.
+      payload:
+        allOf:
+          - $ref: "#/components/schemas/EventEnvelope"
+          - type: object
+            properties:
+              type: { const: sms.delivery.updated }
+              version: { const: 1 }
+              data: { $ref: "#/components/schemas/SmsDeliveryData" }
+    SmsInboundReceived:
+      name: SmsInboundReceived
+      title: Messaging accepted an inbound mobile-originated SMS.
+      payload:
+        allOf:
+          - $ref: "#/components/schemas/EventEnvelope"
+          - type: object
+            properties:
+              type: { const: sms.inbound.received }
+              version: { const: 1 }
+              data: { $ref: "#/components/schemas/SmsInboundData" }
+  schemas:
+    EventEnvelope:
+      type: object
+      additionalProperties: false
+      required:
+        [
+          id,
+          type,
+          version,
+          source,
+          tenant_id,
+          correlation_id,
+          causation_id,
+          occurred_at,
+          data,
+        ]
+      properties:
+        id: { type: string, pattern: "^evt_[A-Za-z0-9_-]+$" }
+        type: { type: string }
+        version: { type: integer, minimum: 1 }
+        source: { type: string, pattern: "^kyyow-[a-z0-9-]+$" }
+        tenant_id: { type: string }
+        correlation_id: { type: string }
+        causation_id: { type: string }
+        occurred_at: { type: string, format: date-time }
+        data: { type: object }
+    SmsStatus:
+      type: string
+      enum:
+        [
+          CREATED,
+          VALIDATED,
+          QUEUED,
+          ROUTING,
+          SUBMITTED,
+          ACCEPTED,
+          DELIVERED,
+          REJECTED,
+          FAILED,
+          EXPIRED,
+          UNDELIVERABLE,
+          CANCELLED,
+          SUPPRESSED,
+        ]
+    SmsDeliveryData:
+      type: object
+      additionalProperties: false
+      required:
+        [message_id, provider, status, occurred_at, received_at, metadata]
+      properties:
+        message_id: { type: string }
+        provider_message_id: { type: [string, "null"] }
+        provider: { type: string }
+        status: { $ref: "#/components/schemas/SmsStatus" }
+        occurred_at: { type: string, format: date-time }
+        received_at: { type: string, format: date-time }
+        error_code: { type: [string, "null"] }
+        metadata: { type: object, additionalProperties: { type: string } }
+    SmsInboundData:
+      type: object
+      additionalProperties: false
+      required: [message_id, from, to, body, encoding, provider, received_at]
+      properties:
+        message_id: { type: string }
+        from: { type: string }
+        to: { type: string }
+        body: { type: string }
+        encoding: { type: string, enum: [GSM7, UCS2, BINARY] }
+        provider: { type: string }
+        received_at: { type: string, format: date-time }

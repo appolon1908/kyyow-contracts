@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.kyyow.com/sms/sms-message-requested.v1.json",
+  "title": "SMS message requested v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "event_id",
+    "tenant_id",
+    "message_id",
+    "from",
+    "to",
+    "body",
+    "encoding",
+    "segment_count",
+    "requested_at"
+  ],
+  "properties": {
+    "event_id": { "type": "string", "format": "uuid" },
+    "tenant_id": { "type": "string", "minLength": 1 },
+    "message_id": { "type": "string", "minLength": 1 },
+    "from": { "type": "string", "minLength": 1, "maxLength": 21 },
+    "to": { "type": "string", "pattern": "^\\+[1-9][0-9]{7,14}$" },
+    "body": { "type": "string", "minLength": 1 },
+    "encoding": { "enum": ["GSM7", "UCS2", "BINARY"] },
+    "segment_count": { "type": "integer", "minimum": 1 },
+    "campaign_id": { "type": ["string", "null"] },
+    "route_profile_id": { "type": ["string", "null"] },
+    "requested_at": { "type": "string", "format": "date-time" },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": { "type": "string" }
+    }
+  }
+}

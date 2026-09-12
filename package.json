@@ -1,0 +1,21 @@
+{
+  "name": "kyyow-contracts-workspace",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "typescript"
+  ],
+  "scripts": {
+    "build": "npm --prefix typescript run build",
+    "test": "node --test compatibility-tests/*.test.mjs",
+    "check": "npm run build && npm test",
+    "format-check": "prettier --check .",
+    "format": "prettier --write ."
+  },
+  "devDependencies": {
+    "ajv": "8.20.0",
+    "ajv-formats": "3.0.1",
+    "js-yaml": "4.3.2",
+    "prettier": "3.6.2"
+  }
+}

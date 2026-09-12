@@ -1,0 +1,19 @@
+{
+  "id": "evt_01HXYB",
+  "type": "sms.inbound.received",
+  "version": 1,
+  "source": "kyyow-messaging",
+  "tenant_id": "tnt_01HXYZ",
+  "correlation_id": "cor_01HXYB",
+  "causation_id": "evt_01HXYA",
+  "occurred_at": "2026-09-12T12:31:11Z",
+  "data": {
+    "message_id": "mo_01HXYZ",
+    "from": "+18095551234",
+    "to": "+18095559876",
+    "body": "YES",
+    "encoding": "GSM7",
+    "provider": "carrier_a",
+    "received_at": "2026-09-12T12:31:11Z"
+  }
+}

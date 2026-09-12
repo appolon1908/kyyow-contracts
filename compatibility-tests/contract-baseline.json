@@ -1,0 +1,37 @@
+{
+  "eventEnvelopeRequired": [
+    "id",
+    "type",
+    "version",
+    "source",
+    "tenant_id",
+    "correlation_id",
+    "causation_id",
+    "occurred_at",
+    "data"
+  ],
+  "smsStatuses": [
+    "CREATED",
+    "VALIDATED",
+    "QUEUED",
+    "ROUTING",
+    "SUBMITTED",
+    "ACCEPTED",
+    "DELIVERED",
+    "REJECTED",
+    "FAILED",
+    "EXPIRED",
+    "UNDELIVERABLE",
+    "CANCELLED",
+    "SUPPRESSED"
+  ],
+  "eventChannels": ["sms.delivery.updated.v1", "sms.inbound.received.v1"],
+  "publicOperations": [
+    "createMessageV1",
+    "getMessageV1",
+    "scheduleCampaignV1",
+    "createSuppressionV1",
+    "createMessageV2",
+    "getMessageV2"
+  ]
+}

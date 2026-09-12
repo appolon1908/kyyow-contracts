@@ -1,0 +1,171 @@
+openapi: 3.1.0
+info:
+  title: Kyyow Public API
+  version: 1.0.0
+servers:
+  - url: https://api.kyyow.com/v1
+paths:
+  /messages:
+    post:
+      operationId: createMessageV1
+      tags: [Messaging]
+      parameters:
+        - $ref: "#/components/parameters/IdempotencyKey"
+        - $ref: "#/components/parameters/CorrelationId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/SmsMessageRequested" }
+      responses:
+        "202":
+          description: Accepted
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/MessageAccepted" }
+        "400": { $ref: "#/components/responses/ApiError" }
+  /messages/{messageId}:
+    get:
+      operationId: getMessageV1
+      tags: [Messaging]
+      parameters:
+        - name: messageId
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: Current normalized message state
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/MessageStatus" }
+        "404": { $ref: "#/components/responses/ApiError" }
+  /campaigns/{campaignId}/schedule:
+    post:
+      operationId: scheduleCampaignV1
+      tags: [Campaigns]
+      parameters:
+        - $ref: "#/components/parameters/IdempotencyKey"
+        - $ref: "#/components/parameters/CorrelationId"
+        - name: campaignId
+          in: path
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [scheduled_for]
+              properties:
+                scheduled_for: { type: string, format: date-time }
+      responses:
+        "202": { description: Accepted }
+  /suppressions:
+    post:
+      operationId: createSuppressionV1
+      tags: [Compliance]
+      parameters:
+        - $ref: "#/components/parameters/IdempotencyKey"
+        - $ref: "#/components/parameters/CorrelationId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [recipient, reason]
+              properties:
+                recipient: { type: string }
+                reason: { type: string }
+      responses:
+        "201": { description: Created }
+components:
+  parameters:
+    IdempotencyKey:
+      name: Idempotency-Key
+      in: header
+      required: true
+      schema: { type: string, minLength: 8, maxLength: 128 }
+    CorrelationId:
+      name: X-Correlation-Id
+      in: header
+      required: true
+      schema: { type: string, minLength: 1, maxLength: 128 }
+  responses:
+    ApiError:
+      description: Request failed
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/ApiError" }
+  schemas:
+    SmsEncoding: { type: string, enum: [GSM7, UCS2, BINARY] }
+    SmsStatus:
+      type: string
+      enum:
+        [
+          CREATED,
+          VALIDATED,
+          QUEUED,
+          ROUTING,
+          SUBMITTED,
+          ACCEPTED,
+          DELIVERED,
+          REJECTED,
+          FAILED,
+          EXPIRED,
+          UNDELIVERABLE,
+          CANCELLED,
+          SUPPRESSED,
+        ]
+    SmsMessageRequested:
+      type: object
+      additionalProperties: false
+      required:
+        [
+          event_id,
+          tenant_id,
+          message_id,
+          from,
+          to,
+          body,
+          encoding,
+          segment_count,
+          requested_at,
+        ]
+      properties:
+        event_id: { type: string, format: uuid }
+        tenant_id: { type: string }
+        message_id: { type: string }
+        from: { type: string }
+        to: { type: string }
+        body: { type: string }
+        encoding: { $ref: "#/components/schemas/SmsEncoding" }
+        segment_count: { type: integer, minimum: 1 }
+        campaign_id: { type: [string, "null"] }
+        route_profile_id: { type: [string, "null"] }
+        requested_at: { type: string, format: date-time }
+        metadata: { type: object, additionalProperties: { type: string } }
+    MessageAccepted:
+      type: object
+      required: [message_id, status]
+      properties:
+        message_id: { type: string }
+        status: { type: string, const: QUEUED }
+    MessageStatus:
+      type: object
+      required: [message_id, status, updated_at]
+      properties:
+        message_id: { type: string }
+        status: { $ref: "#/components/schemas/SmsStatus" }
+        updated_at: { type: string, format: date-time }
+    ApiError:
+      type: object
+      required: [code, message, correlation_id]
+      properties:
+        code: { type: string }
+        message: { type: string }
+        correlation_id: { type: string }

@@ -1,0 +1,21 @@
+{
+  "name": "@kyyow/contracts",
+  "version": "1.0.0",
+  "description": "Canonical, implementation-free Kyyow contracts",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "pack:check": "npm pack --dry-run"
+  },
+  "devDependencies": {
+    "typescript": "5.9.2"
+  }
+}

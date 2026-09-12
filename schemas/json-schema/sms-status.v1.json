@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.kyyow.com/sms/sms-status.v1.json",
+  "title": "Canonical SMS status v1",
+  "enum": [
+    "CREATED",
+    "VALIDATED",
+    "QUEUED",
+    "ROUTING",
+    "SUBMITTED",
+    "ACCEPTED",
+    "DELIVERED",
+    "REJECTED",
+    "FAILED",
+    "EXPIRED",
+    "UNDELIVERABLE",
+    "CANCELLED",
+    "SUPPRESSED"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.kyyow.com/sms/sms-inbound-received.v1.json",
+  "title": "Inbound SMS received v1 payload",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "message_id",
+    "from",
+    "to",
+    "body",
+    "encoding",
+    "provider",
+    "received_at"
+  ],
+  "properties": {
+    "message_id": { "type": "string", "minLength": 1 },
+    "from": { "type": "string", "minLength": 1 },
+    "to": { "type": "string", "minLength": 1 },
+    "body": { "type": "string" },
+    "encoding": { "enum": ["GSM7", "UCS2", "BINARY"] },
+    "provider": { "type": "string", "minLength": 1 },
+    "received_at": { "type": "string", "format": "date-time" }
+  }
+}

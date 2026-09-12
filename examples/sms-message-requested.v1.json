@@ -1,0 +1,14 @@
+{
+  "event_id": "cc012b9f-6064-4d63-9188-f53afb8f20ee",
+  "tenant_id": "tnt_01HXYZ",
+  "message_id": "msg_01HXYZ",
+  "from": "KYYOW",
+  "to": "+18095551234",
+  "body": "Your verification code is 482910",
+  "encoding": "GSM7",
+  "segment_count": 1,
+  "campaign_id": null,
+  "route_profile_id": "route_do_primary",
+  "requested_at": "2026-09-12T12:29:58Z",
+  "metadata": { "purpose": "verification" }
+}

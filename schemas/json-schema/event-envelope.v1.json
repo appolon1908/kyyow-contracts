@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.kyyow.com/events/event-envelope.v1.json",
+  "title": "Kyyow event envelope v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "type",
+    "version",
+    "source",
+    "tenant_id",
+    "correlation_id",
+    "causation_id",
+    "occurred_at",
+    "data"
+  ],
+  "properties": {
+    "id": { "type": "string", "pattern": "^evt_[A-Za-z0-9_-]+$" },
+    "type": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9]*(\\.[a-z][a-z0-9]*)+$"
+    },
+    "version": { "type": "integer", "minimum": 1 },
+    "source": { "type": "string", "pattern": "^kyyow-[a-z0-9-]+$" },
+    "tenant_id": { "type": "string", "minLength": 1 },
+    "correlation_id": { "type": "string", "minLength": 1 },
+    "causation_id": { "type": "string", "minLength": 1 },
+    "occurred_at": { "type": "string", "format": "date-time" },
+    "data": { "type": "object" }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.kyyow.com/sms/sms-delivery-updated.v1.json",
+  "title": "SMS delivery updated v1 payload",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "message_id",
+    "provider",
+    "status",
+    "occurred_at",
+    "received_at",
+    "metadata"
+  ],
+  "properties": {
+    "message_id": { "type": "string", "minLength": 1 },
+    "provider_message_id": { "type": ["string", "null"] },
+    "provider": { "type": "string", "minLength": 1 },
+    "status": { "$ref": "sms-status.v1.json" },
+    "occurred_at": { "type": "string", "format": "date-time" },
+    "received_at": { "type": "string", "format": "date-time" },
+    "error_code": { "type": ["string", "null"] },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": { "type": "string" }
+    }
+  }
+}
