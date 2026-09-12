@@ -91,3 +91,26 @@ test("OpenAPI versions expose only their matching major path", () => {
     true,
   );
 });
+
+test("platform stack preserves sole-writer and private telemetry topology", () => {
+  const schema = json("schemas/json-schema/platform-stack.v1.json");
+  const stack = json("schemas/json-schema/kyyow-platform-stack.v1.json");
+  const ajv = new Ajv2020({ strict: true });
+  assert.equal(ajv.compile(schema)(stack), true);
+  assert.deepEqual(stack.public_hosts, [
+    "app.kyyow.com",
+    "api.kyyow.com",
+    "search.kyyow.com",
+    "docs.kyyow.com",
+    "auth.kyyow.com",
+    "status.kyyow.com",
+  ]);
+  assert.deepEqual(stack.alert_flow, [
+    "Prometheus evaluates",
+    "Alertmanager groups and routes",
+    "Middleware receives operational alert",
+    "Middleware writes the Odoo incident",
+  ]);
+  assert.equal(stack.activation.runtime_verified, false);
+  assert.equal(stack.activation.production_authorized, false);
+});

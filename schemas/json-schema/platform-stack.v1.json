@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.kyyow.com/platform/platform-stack.v1.json",
+  "title": "Kyyow platform stack v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "public_hosts",
+    "identity",
+    "telemetry_flow",
+    "alert_flow",
+    "analytics",
+    "secrets",
+    "components",
+    "activation"
+  ],
+  "properties": {
+    "schema": { "const": "kyyow.platform-stack.v1" },
+    "public_hosts": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string", "pattern": "^[a-z]+\\.kyyow\\.com$" }
+    },
+    "identity": { "type": "string" },
+    "telemetry_flow": {
+      "type": "array",
+      "minItems": 4,
+      "items": { "type": "string" }
+    },
+    "alert_flow": {
+      "type": "array",
+      "minItems": 4,
+      "items": { "type": "string" }
+    },
+    "analytics": { "type": "array", "items": { "type": "string" } },
+    "secrets": { "type": "string" },
+    "components": {
+      "type": "object",
+      "minProperties": 16,
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^appolon1908-hue/[A-Za-z0-9._-]+$"
+      }
+    },
+    "activation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_complete",
+        "runtime_verified",
+        "production_authorized"
+      ],
+      "properties": {
+        "source_complete": { "const": true },
+        "runtime_verified": { "const": false },
+        "production_authorized": { "const": false }
+      }
+    }
+  }
+}

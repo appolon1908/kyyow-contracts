@@ -1,0 +1,54 @@
+{
+  "schema": "kyyow.platform-stack.v1",
+  "public_hosts": [
+    "app.kyyow.com",
+    "api.kyyow.com",
+    "search.kyyow.com",
+    "docs.kyyow.com",
+    "auth.kyyow.com",
+    "status.kyyow.com"
+  ],
+  "identity": "Caddy -> Keycloak -> owning API; Caddy never creates trusted identity headers",
+  "telemetry_flow": [
+    "Kyyow workloads -> OpenTelemetry",
+    "OpenTelemetry and exporters -> Alloy",
+    "Alloy -> Prometheus, Loki, Tempo",
+    "Grafana -> read-only Prometheus, Loki, Tempo"
+  ],
+  "alert_flow": [
+    "Prometheus evaluates",
+    "Alertmanager groups and routes",
+    "Middleware receives operational alert",
+    "Middleware writes the Odoo incident"
+  ],
+  "analytics": [
+    "certified read models -> Superset",
+    "Superset is read-only",
+    "Grafana is read-only"
+  ],
+  "secrets": "OpenBao stores and leases secrets only; secret material and business data are prohibited in Git",
+  "components": {
+    "ingress": "appolon1908-hue/Caddy",
+    "identity": "appolon1908-hue/Keycloak",
+    "contracts": "appolon1908-hue/kyyow-contracts",
+    "prometheus": "appolon1908-hue/Codestra-Prometheus",
+    "alertmanager": "appolon1908-hue/Codestra-Alertmanager",
+    "grafana": "appolon1908-hue/Codestra-Grafana-",
+    "opentelemetry": "appolon1908-hue/Codestra-Telemetry",
+    "alloy": "appolon1908-hue/Codestra-Alloy",
+    "loki": "appolon1908-hue/Codestra-Loki",
+    "tempo": "appolon1908-hue/Codestra-Tempo",
+    "node_exporter": "appolon1908-hue/Codestra-Node-Exporter",
+    "cadvisor": "appolon1908-hue/Codestra-cAdvisor",
+    "redis_exporter": "appolon1908-hue/Codestra-Redis-Exporter",
+    "blackbox_exporter": "appolon1908-hue/Codestra-Blackbox-Exporter",
+    "postgres_exporter": "appolon1908-hue/Codestra-Postgres-Exporter",
+    "superset": "appolon1908-hue/Superset",
+    "openbao": "appolon1908-hue/Codestra-OpenBao"
+  },
+  "activation": {
+    "source_complete": true,
+    "runtime_verified": false,
+    "production_authorized": false
+  }
+}
